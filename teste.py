@@ -9,7 +9,7 @@ from typing import Dict, List, Tuple
 
 # Função para carregar os dados da API da cidade
 @st.cache_data
-def carregar_dados(cidade: str) -> Tuple[float, float]:
+def carregar_dados(cidade: str) -> Tuple[float, float, dict]:
     """Função para carregar os dados da API OpenWeather para obter a latitude e longitude da cidade"""
     api_key = "91cac1b28f06467fcf5687839e0cdc69"  # Substitua pela sua chave de API
     link = f"https://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={api_key}&lang=pt_br"
@@ -22,7 +22,7 @@ def carregar_dados(cidade: str) -> Tuple[float, float]:
         longitude = api_dic['coord']['lon']
         return latitude, longitude, api_dic  # Retorna também os dados completos
     else:
-        print(f"Cidade não encontrada ou erro na requisição: {api_dic.get('message')}")
+        st.error(f"Cidade não encontrada ou erro na requisição: {api_dic.get('message')}")
         return None, None, None
 
 # Função para formatar os dados da previsão atual
@@ -52,7 +52,7 @@ def formatar_dados_climaticos(api_dic: dict) -> dict:
 
         return dados_climaticos
     except KeyError as e:
-        print(f"Erro ao acessar a chave: {e}")
+        st.error(f"Erro ao acessar a chave: {e}")
         return {}
 
 # Função para criar gráficos com os dados climáticos
@@ -67,7 +67,7 @@ def graficos(dados: dict) -> None:
         plt.title('Temperaturas Atual, Máxima e Mínima')
         plt.ylabel('Temperatura (°C)')
         plt.grid(True)
-        plt.show()
+        st.pyplot(plt)
 
         # Gráfico de umidade e vento
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
@@ -80,32 +80,34 @@ def graficos(dados: dict) -> None:
         ax2.set_title('Velocidade do Vento')
         ax2.set_ylabel('Velocidade (m/s)')
 
-        plt.show()
+        st.pyplot(fig)
 
     except Exception as e:
-        print(f"Erro ao gerar gráficos: {e}")
+        st.error(f"Erro ao gerar gráficos: {e}")
 
 # Função principal para executar o programa
-cidade = input("Digite a cidade: ")
-    
-latitude, longitude, api_dic = carregar_dados(cidade)
-    
-if latitude is not None and longitude is not None:
-    dados_climaticos = formatar_dados_climaticos(api_dic)
+def main():
+    st.title('Previsão Climática')
 
-    if dados_climaticos:
-        print(f"Clima atual em {cidade}:")
-        for chave, valor in dados_climaticos.items():
-            print(f"{chave.replace('_', ' ').capitalize()}: {valor}")
+    cidade = st.text_input("Digite o nome da cidade:", "São Paulo")
 
-            # Exibir gráficos com as previsões
-            graficos(dados_climaticos)
-    else:
-        print("Erro ao processar os dados climáticos.")
-else:
-    print("Cidade não encontrada ou erro na requisição.")
+    if cidade:
+        latitude, longitude, api_dic = carregar_dados(cidade)
+        
+        if latitude is not None and longitude is not None:
+            dados_climaticos = formatar_dados_climaticos(api_dic)
 
-
-st.write("""
-
-""")
+            if dados_climaticos:
+                st.subheader(f"Clima atual em {cidade}:")
+                for chave, valor in dados_climaticos.items():
+                    st.write(f"{chave.replace('_', ' ').capitalize()}: {valor:.2f}" if isinstance(valor, float) else f"{chave.replace('_', ' ').capitalize()}: {valor}")
+                
+                # Exibir gráficos com as previsões
+                graficos(dados_climaticos)
+            else:
+                st.error("Erro ao processar os dados climáticos.")
+        else:
+            st.error("Cidade não encontrada ou erro na requisição.")
+            
+if __name__ == "__main__":
+    main()
