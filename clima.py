@@ -1,4 +1,5 @@
 import json
+import base64
 import pandas as pd
 import matplotlib.pyplot as plt
 import requests
@@ -6,6 +7,39 @@ import numpy as np
 import streamlit as st
 from datetime import datetime
 from typing import Dict, List, Tuple
+
+@st.cache_data
+def pegar_img(file):
+    with open(file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode('utf-8')  # Corrigido para gerar uma string base64
+
+# Carregar a imagem
+img = pegar_img("background.jpg")
+
+# Aplicar a imagem de fundo no Streamlit
+bg_img = f"""
+<style>
+[data-testid="stAppViewContainer"] {{
+    background-image: url("data:image/jpeg;base64, {img}");
+    background-size: cover;
+}}
+[data-testid="stSidebar"]{{
+background-color: blue;
+}}
+ header {{
+        visibility: hidden;
+    }}
+    /* Esconde o menu lateral */
+    .css-1d391kg {{
+        visibility: hidden;
+    }}
+    /* Esconde o botão de "Deployed by Streamlit" */
+    .css-1kxg7xu {{
+        visibility: hidden;
+    }}
+"""
+st.markdown(bg_img, unsafe_allow_html=True)
 
 # Função para carregar os dados da API da cidade
 @st.cache_data
