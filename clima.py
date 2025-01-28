@@ -108,7 +108,7 @@ def graficos(dados: dict) -> None:
         values = [dados['Temperatura Atual (°C)'], dados['Sensação Térmica (°C)']]
 
         # Criando as barras
-        ax.bar(labels, values, color=['#1076EB', '#25D6FA'])
+        bars = ax.bar(labels, values, color=['#1076EB', '#25D6FA'])
 
         # Ajustando o título e os rótulos para a cor branca
         ax.set_title("Comparação: Sensação Térmica vs. Temperatura Atual", color='white')
@@ -121,6 +121,12 @@ def graficos(dados: dict) -> None:
         # Ajustando a cor dos rótulos do eixo x e y
         ax.tick_params(axis='x', labelcolor='white')  # Rótulos do eixo X
         ax.tick_params(axis='y', labelcolor='white')  # Rótulos do eixo Y
+
+        # Adicionando os números acima das barras
+        for bar in bars:
+            height = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width() / 2, height, f'{height:.1f}', 
+                    ha='center', va='bottom', color='white', fontsize=12)
 
         # Gráfico de pizza
         dados_pizza = [
