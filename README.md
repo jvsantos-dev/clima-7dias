@@ -74,21 +74,6 @@ Abaixo estão exemplos dos gráficos gerados pela aplicação:
     Gráfico de Comparação (Temperatura Atual vs Sensação Térmica): Um gráfico de barras comparando os dados.
     Gráfico de Pizza: Mostra a distribuição percentual de temperatura, sensação térmica, umidade e velocidade do vento.
 
-📝 Contribuindo
-
-Contribuições são bem-vindas! Se você encontrar algum erro ou quiser melhorar a funcionalidade da aplicação, sinta-se à vontade para fazer um fork do repositório e enviar um pull request. Para mais detalhes sobre como contribuir, consulte o CONTRIBUTING.md.
 📄 Licença
 
-Esse projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
-
-
-
-### Detalhes sobre o README:
-
-- **Objetivo do Projeto**: O README agora reflete a descrição do seu projeto de "Consulta Climática em Tempo Real", usando Streamlit para exibir os dados.
-- **Instalação e Execução**: As etapas para configuração do projeto estão bem descritas, com foco na instalação de dependências e na execução da aplicação.
-- **Funcionalidades e Gráficos**: As funcionalidades principais estão bem destacadas, incluindo a consulta ao clima e os gráficos interativos.
-- **Personalizações**: Informações sobre como a interface pode ser personalizada, incluindo a imagem de fundo.
-- **Exemplos Visuais**: Aqui você pode adicionar imagens ou detalhes adicionais sobre os gráficos, se necessário.
-
-Este README oferece uma visão clara de como rodar seu projeto localmente, com uma explicação das funcion
+Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
