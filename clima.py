@@ -12,7 +12,7 @@ from typing import Dict, List, Tuple
 def pegar_img(file):
     with open(file, "rb") as f:
         data = f.read()
-    return base64.b64encode(data).decode('utf-8')
+    return base64.b64encode(data).decode('utf-8')  # Corrigido para gerar uma string base64
 
 # Carregar a imagem
 img = pegar_img("background.jpg")
@@ -63,7 +63,7 @@ def carregar_dados(cidade: str) -> Tuple[float, float, str, dict]:
     if api_dic.get('cod') == 200:
         latitude = api_dic['coord']['lat']
         longitude = api_dic['coord']['lon']
-        pais = api_dic['sys']['country']
+        pais = api_dic['sys']['country']  # Acessa o código do país corretamente
         return latitude, longitude, pais, api_dic
     else:
         st.error(f"Cidade não encontrada ou erro na requisição: {api_dic.get('message')}")
@@ -100,43 +100,15 @@ def formatar_dados_climaticos(api_dic: dict) -> dict:
 # Função para criar gráficos com fundo transparente
 def graficos(dados: dict) -> None:
     try:
-        # Contar as ocorrências de cada condição climática
-        condicoes_freq = dados['Condição Climática'].value_counts().sort_index()
-        
-        # Plotar gráfico de barras empilhadas
-        fig, ax = plt.subplots(figsize=(8, 6))
-        condicoes_freq.plot(kind='bar', stacked=True, color=['#FF5733', '#33A1FF', '#FF8D1A', '#2F4F4F'], ax=ax)
-        ax.set_title('Distribuição das Condições Climáticas', fontsize=14, color='white')
-        ax.set_ylabel('Quantidade', fontsize=12, color='white')
-        ax.set_xlabel('Condições Climáticas', fontsize=12, color='white')
-        
-        # Exibir o gráfico
-        fig.patch.set_alpha(0)  # Torna o fundo invisível
-        ax.set_facecolor('none')
-        
-        # Criando o gráfico de linhas
-        fig_clima, ax_clima = plt.subplots(figsize=(8, 4))
-
-        # Plotando a temperatura e umidade
-        ax_clima.plot(['Agora'], [dados['Temperatura Atual (°C)']], label='Temperatura (°C)', color='#FF5733', marker='o')
-        ax_clima.plot(['Agora'], [dados['Umidade (%)']], label='Umidade (%)', color='#33A1FF', marker='o')
-
-        # Títulos e rótulos
-        ax_clima.set_title('Temperatura e Umidade Atual', color='white')
-        ax_clima.set_xlabel('Hora', color='white')
-        ax_clima.set_ylabel('Valor', color='white')
-        ax_clima.tick_params(colors='white')
-
-        # Exibindo a legenda
-        ax_clima.legend()
-
-        # Desligando o grid
-        ax_clima.grid(True)
-
-        # Removendo fundo e configurando transparência
+        # Gráfico de barras
+        fig_clima, ax = plt.subplots()
+        labels = ['Temperatura Atual', 'Sensação Térmica']
+        values = [dados['Temperatura Atual (°C)'], dados['Sensação Térmica (°C)']]
+        ax.bar(labels, values, color=['#1076EB', '#25D6FA'])
+        ax.set_title("Comparação: Sensação Térmica vs. Temperatura Atual")
+        ax.set_ylabel("Temperatura (°C)")
         fig_clima.patch.set_alpha(0)
-        ax_clima.set_facecolor('none')
-        
+        ax.set_facecolor('none')  # Definir fundo do eixo transparente
         # Gráfico de pizza
         dados_pizza = [
             max(dados['Temperatura Atual (°C)'], 0),
@@ -144,16 +116,17 @@ def graficos(dados: dict) -> None:
             max(dados['Velocidade do Vento (m/s)'], 0),
             max(dados['Umidade (%)'], 0)
         ]
-        fig_pizza, ax_pizza = plt.subplots(figsize=(6, 6))
+        fig_pizza, ax_pizza = plt.subplots()
         labels = ['Temperatura', 'Sensação Térmica', 'Velocidade do Vento', 'Umidade']
         ax_pizza.pie(dados_pizza, labels=labels, autopct='%1.1f%%', startangle=90,
                     colors=['#184ED6', '#1076EB', '#0D90D6', '#25D6FA'], textprops={'color': 'white'})
         fig_pizza.patch.set_alpha(0)  # Torna o fundo invisível
 
+        # Mostrar gráficos no Streamlit
         col1, col2 = st.columns(2)
 
         with col1:
-            st.pyplot(fig)
+            st.pyplot(fig_clima)
 
         with col2:
             st.pyplot(fig_pizza)
