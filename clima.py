@@ -100,15 +100,28 @@ def formatar_dados_climaticos(api_dic: dict) -> dict:
 # Função para criar gráficos com fundo transparente
 def graficos(dados: dict) -> None:
     try:
+        import matplotlib.pyplot as plt
+
         # Gráfico de barras
         fig_clima, ax = plt.subplots()
         labels = ['Temperatura Atual', 'Sensação Térmica']
         values = [dados['Temperatura Atual (°C)'], dados['Sensação Térmica (°C)']]
+
+        # Criando as barras
         ax.bar(labels, values, color=['#1076EB', '#25D6FA'])
-        ax.set_title("Comparação: Sensação Térmica vs. Temperatura Atual")
-        ax.set_ylabel("Temperatura (°C)")
+
+        # Ajustando o título e os rótulos para a cor branca
+        ax.set_title("Comparação: Sensação Térmica vs. Temperatura Atual", color='white')
+        ax.set_ylabel("Temperatura (°C)", color='white')
+
+        # Ajustando o fundo e a transparência
         fig_clima.patch.set_alpha(0)
         ax.set_facecolor('none')  # Definir fundo do eixo transparente
+
+        # Ajustando a cor dos rótulos do eixo x e y
+        ax.tick_params(axis='x', labelcolor='white')  # Rótulos do eixo X
+        ax.tick_params(axis='y', labelcolor='white')  # Rótulos do eixo Y
+
         # Gráfico de pizza
         dados_pizza = [
             max(dados['Temperatura Atual (°C)'], 0),
