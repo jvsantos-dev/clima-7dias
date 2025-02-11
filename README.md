@@ -47,7 +47,7 @@ pip install -r requirements.txt
 
 Execute a aplicação:
 
-    streamlit run app.py
+    streamlit run clima.py
 
     Abra o navegador e acesse http://127.0.0.1:8501 para visualizar a aplicação.
 
