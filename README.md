@@ -51,23 +51,27 @@ Execute a aplicação:
 
     Abra o navegador e acesse http://127.0.0.1:8501 para visualizar a aplicação.
 
-📈 Funcionalidades
+### 📈 Funcionalidades
 
-    Consulta de Clima: Insira o nome de uma cidade e veja os dados climáticos em tempo real, incluindo:
-        Temperatura
-        Sensação térmica
-        Umidade
-        Direção e velocidade do vento
-    Gráficos Interativos:
-        Gráfico de barras comparando a temperatura atual com a sensação térmica.
-        Gráfico de pizza com a distribuição percentual de temperatura, sensação térmica, umidade e velocidade do vento.
+Consulta de Clima: Insira o nome de uma cidade e veja os dados climáticos em tempo real, incluindo:
 
-🎨 Personalizações
+    Temperatura
+    Sensação térmica
+    Umidade
+    Direção e velocidade do vento
+    
+Gráficos Interativos:
 
-    Imagem de Fundo: A aplicação inclui uma imagem de fundo personalizada (em formato JPEG), que pode ser trocada facilmente para mudar a aparência.
-    Estilos de Interface: A interface do Streamlit foi customizada com cores e fontes para melhorar a estética e a experiência do usuário.
+    Gráfico de barras comparando a temperatura atual com a sensação térmica.
+    Gráfico de pizza com a distribuição percentual de temperatura, sensação térmica, umidade e velocidade do vento.
 
-📸 Exemplos Visuais
+### 🎨 Personalizações
+
+Imagem de Fundo: A aplicação inclui uma imagem de fundo personalizada (em formato JPEG), que pode ser trocada facilmente para mudar a aparência.
+
+Estilos de Interface: A interface do Streamlit foi customizada com cores e fontes para melhorar a estética e a experiência do usuário.
+
+### 📸 Exemplos Visuais
 
 Abaixo estão exemplos dos gráficos gerados pela aplicação:
 
