@@ -30,7 +30,7 @@ Siga estas etapas para configurar o ambiente:
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu_usuario/cilma-7dias.git
+   git clone https://github.com/jvsantos-dev/cilma-7dias.git
 
     Acesse o diretório do projeto:
 
